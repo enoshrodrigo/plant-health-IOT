@@ -406,6 +406,7 @@ class ForecastService:
             # Make prediction
             prediction = self.model_service.predict_traditional(latest_data)
             if not prediction:
+                print('No prediction available.')
                 return None
                 
             # Prepare reading data for response
