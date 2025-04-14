@@ -4,10 +4,10 @@
 ![Version](https://img.shields.io/badge/Version-1.0.0-brightgreen.svg)
 ![React](https://img.shields.io/badge/React-18.x-blue.svg)
 ![Python](https://img.shields.io/badge/Python-3.10+-yellow.svg)
-![Tensor Flow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange.svg)
 
 <div align="center">
-  <img src="./public/images/Dashboard.png" alt="Plant Health Monitoring" width="800px">
+  <img src="./public/images/Dashboard.png" alt="Plant Health Monitoring" width="auto">
   <p><em>Real-time plant health monitoring using IoT devices and LSTM forecasting</em></p>
 </div>
 
@@ -25,12 +25,12 @@
 - 🌡️ **Multi-Parameter Sensing:** Monitors temperature, moisture, NPK, pH, and more.
 
 ---
-
-## 🛠️ Architecture
-
 <div align="center">
 
-  ```bash
+  ```
+## 🛠️ Architecture
+
+
  ┌─────────────────────┐     ┌─────────────────────┐      ┌────────────────────┐
 │   HARDWARE LAYER    │     │   BACKEND LAYER     │      │   FRONTEND LAYER   │
 │                     │     │                     │      │                    │
@@ -44,7 +44,7 @@
 │         ⬇️          │     │         │           │      │        │           │
 │  ┌───────────────┐  │     │  ┌───────────────┐  │      │ ┌───────────────┐  │
 │  │  History From │──┼─────┼─▶│ Model Service │──┼──────┼▶│    Charts     │  │
-│  │   Json File   │  │     │  │ (LSTM Model)  │  │      │ └───────────────┘  │
+│  │   JSON File   │  │     │  │ (LSTM Model)  │  │      │ └───────────────┘  │
 │  └───────────────┘  │     │  └───────────────┘  │      │                    │
 └─────────────────────┘     └─────────────────────┘      └────────────────────┘
          │                           │                            │
@@ -52,6 +52,7 @@
                                      │
                                WebSocket/HTTP
                               Communication
+
   ```
 </div>
 
@@ -79,7 +80,7 @@ The system consists of three main components:
 
 - **Backend:** Python, Flask, SocketIO, TensorFlow, NumPy  
 - **Frontend:** React, Chart.js, TailwindCSS, DaisyUI  
-- **Machine Learning:** LSTM neural networks, scikit-learn and Random Forest  
+- **Machine Learning:** LSTM neural networks, scikit-learn, and Random Forest  
 - **Hardware:** NodeMCU ESP8266, Various environmental sensors
 
 ---
@@ -124,6 +125,7 @@ pip install -r requirements.txt
 
 # Run the server
 python run.py
+```
 
 #### Frontend Setup
 ```bash
@@ -148,12 +150,76 @@ npm start
 ## 📱 Screenshots
 
 <div align="center">
-  <img src="./public/images/Section01.png" alt="DashBoard Section 01" width="400px">
-  <img src="./public/images/helath_status.png" alt="Optimal Conditions Card" width="400px">
+  <img src="./public/images/Section01.png" alt="DashBoard Section 01" width="450px" height="auto" >
+  <img src="./public/images/helath_status.png" alt="Optimal Conditions Card" width="450px" height="auto">
   <br>
-  <img src="./public/images/sensor_readings.png" alt="Sensor Readings" width="400px">
-  <img src="./public/images/ltsm_forecast.png" alt="Forecast Chart" width="400px">
+  <img src="./public/images/sensor_readings.png" alt="Sensor Readings" width="450px" height="auto">
+  <img src="./public/images/lstm_forecast.png" alt="Forecast Chart" width="450px" height="auto">
 </div>
+
+---
+
+## 📊 Model Evaluation
+
+### Feature Distribution
+<div align="center">
+  <img src="./public/images/feature_distribution.png" alt="Feature Distribution" width="auto">
+</div>
+
+### Feature Distribution by Plant Health Status
+<div align="center">
+  <img src="./public/images/feature_distribution_by_plant_health_status.png" alt="Feature Distribution by Plant Health Status" width="auto">
+</div>
+
+### Random Forest Classification
+
+**Model:** `random_forest`  
+**Best Parameters:** `{'classifier__max_depth': None, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 200}`
+
+**Classification Report:**
+```
+                 precision    recall  f1-score   support
+
+        Healthy       0.97      0.97      0.97        58
+    High Stress       0.99      0.99      0.99        96
+Moderate Stress       0.96      0.96      0.96        76
+
+       accuracy                           0.97       230
+      macro avg       0.97      0.97      0.97       230
+   weighted avg       0.97      0.97      0.97       230
+```
+
+<div align="center">
+  <img src="./public/images/rf_confusion_matrix.png" alt="Random Forest Confusion Matrix" width="600px">
+</div>
+
+### LSTM Forecasting Classification
+
+**Model:** `LSTM`
+
+**Classification Report:**
+```
+                 precision    recall  f1-score   support
+
+        Healthy       0.82      0.79      0.81        58
+    High Stress       0.90      0.86      0.88        95
+Moderate Stress       0.72      0.77      0.74        75
+
+       accuracy                           0.82       228
+      macro avg       0.81      0.81      0.81       228
+   weighted avg       0.82      0.82      0.82       228
+```
+
+<div align="center">
+  <img src="./public/images/lstm_confusion_matrix.png" alt="LSTM Forecasting Confusion Matrix" width="600px">
+</div>
+
+---
+
+## 🌐 Data Source
+
+The sensor and plant health data used in this project is available on Kaggle.  
+[Plant Health Data on Kaggle](https://www.kaggle.com/datasets/ziya07/plant-health-data)
 
 ---
 
@@ -165,7 +231,6 @@ The system uses Long Short-Term Memory (LSTM) neural networks to predict plant h
 - Predicts future values for key parameters (moisture, temperature, etc.).
 - Classifies plant health status (Healthy, Moderate Stress, High Stress).
 - 3+ day forecasting with hourly granularity.
-- Handles multiple plant types with different optimal conditions.
 
 ---
 
@@ -184,7 +249,16 @@ The system uses Long Short-Term Memory (LSTM) neural networks to predict plant h
 - **sensor_reading** - New sensor data received
 
 ---
+## 🚀 Future Suggestions
 
+- **Automated Irrigation:** Add an automated irrigation system based on sensor data.
+- **Mobile App Integration:** Integrate a mobile app for instant notifications.
+- **Cloud Storage:** Use cloud storage for large-scale data handling.
+- **Voice Assistant Support:** Support voice assistant integration (e.g., Alexa).
+- **Renewable Energy:** Use solar panels for energy autonomy.
+- **Data Collection:** Currently, the dataset is limited; collecting more data will help improve the LSTM forecasting accuracy.
+
+---
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -205,4 +279,3 @@ For questions and support, please open an issue or contact the repository owner.
   <p>Made with ❤️ for plants and planet</p>
   <p>© 2025 Smart Plant Health Monitoring System</p>
 </div>
-```
